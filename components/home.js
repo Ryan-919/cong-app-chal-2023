@@ -51,14 +51,19 @@ const Home = () => {
       .then(function(playlistData) {
         console.log('Some information about this playlist');
         const playlistTrackResponse = playlistData.body;
-        const firstTrack = playlistTrackResponse.items[0].track;
-        const trackInfo = {
-          name: firstTrack.name,
-          url: firstTrack.external_urls.spotify,
-          artist: firstTrack.artists[0].name,
-          id: firstTrack.id
-        };
-        console.log(trackInfo);
+        const tracksInfo = [];
+        for (let i = 0; i < 10 && i < playlistTrackResponse.items.length; i++) {
+          const track = playlistTrackResponse.items[i].track;
+          const trackInfo = {
+            name: track.name,
+            url: track.external_urls.spotify,
+            artist: track.artists[0].name,
+            id: track.id
+          };
+          tracksInfo.push(trackInfo);
+        }
+        
+        console.log(tracksInfo);
       }, function(err) {
         console.log('Something went wrong!', err);
       });
@@ -85,14 +90,18 @@ const Home = () => {
       .then(function(languageData) {
         console.log('Some information about this playlist');
         const languageTrackResponse = languageData.body;
-        const firstTrack = languageTrackResponse.items[0].track;
-        const trackInfo = {
-          name: firstTrack.name,
-          url: firstTrack.external_urls.spotify,
-          artist: firstTrack.artists[0].name,
-          id: firstTrack.id
-        };
-        console.log(trackInfo);
+        const tracksInfo = [];
+        for (let i = 0; i < 10 && i < languageTrackResponse.items.length; i++) {
+          const track = languageTrackResponse.items[i].track;
+          const trackInfo = {
+            name: track.name,
+            url: track.external_urls.spotify,
+            artist: track.artists[0].name,
+            id: track.id
+          };
+          tracksInfo.push(trackInfo);
+        }
+        console.log(tracksInfo);
       }, function(err) {
         console.log('Something went wrong!', err);
       });
