@@ -10,7 +10,7 @@ const Home = () => {
   const [genreSearch, setGenreSearch] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
 
-  spotifyApi.setAccessToken("BQAeCkePLY_tIVqTf3_7wicotZHp3qycQeHS_YHmeE1jTLfgJVZKa5G0i3ies9R9sMUcqnMAGPQdniTVd-fgdQeXUgUrwMNIzXti5Dk2XA2NiCrDlDg")
+  spotifyApi.setAccessToken("BQBCIc8D85Dzyn2XfOfZvtWgk2gvc0Mw8jZr20RA3FpGqr2_78Dhk41FLsaTWiTAgPGU0v6Zn40kBgMYbD_IQrPbz7MiNPeEEpmvzNKnoS2EecmLw_A")
 
 
   const handleSearchTrack = (song) => {
@@ -67,8 +67,38 @@ const Home = () => {
     });
   };
 
-  const handleSearchLanguage = () => {
+  const handleSearchLanguage = (language) => {
     // Implement your search logic here
+    spotifyApi.searchPlaylists(language)
+    .then(function(data) {
+      console.log('Search for' + language);
+      const languageResponse = data.body;
+      const firstPlaylist = languageResponse.playlists.items[0];
+      const languageInfo = {
+        name: firstPlaylist.name,
+        url: firstPlaylist.external_urls.spotify,
+        id: firstPlaylist.id
+      };
+      console.log(languageInfo);
+
+      spotifyApi.getPlaylistTracks(languageInfo.id)
+      .then(function(languageData) {
+        console.log('Some information about this playlist');
+        const languageTrackResponse = languageData.body;
+        const firstTrack = languageTrackResponse.items[0].track;
+        const trackInfo = {
+          name: firstTrack.name,
+          url: firstTrack.external_urls.spotify,
+          artist: firstTrack.artists[0].name,
+          id: firstTrack.id
+        };
+        console.log(trackInfo);
+      }, function(err) {
+        console.log('Something went wrong!', err);
+      });
+    }, function(err) {
+      console.error(JSON.stringify(err));
+    });
   };
 
   const handleRandomSong = () => {
@@ -100,7 +130,7 @@ const Home = () => {
           placeholder="Search for a language..."
           value={languageSearch}
           onChangeText={(text) => setLanguageSearch(text)}
-          onSubmitEditing={handleSearchLanguage}
+          onSubmitEditing={() => handleSearchLanguage(languageSearch)}
         />
         <Button title="Suggest Random Song" onPress={handleRandomSong} />
       </SafeAreaView>
