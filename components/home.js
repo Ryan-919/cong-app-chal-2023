@@ -24,7 +24,8 @@ const Home = () => {
         name: trackItem.name,
         url: trackItem.external_urls.spotify,
         artist: trackItem.artists[0].name,
-        id: trackItem.id
+        id: trackItem.id,
+        uri: trackItem.uri
       }));
       
       console.log(tracks);
@@ -58,7 +59,8 @@ const Home = () => {
             name: track.name,
             url: track.external_urls.spotify,
             artist: track.artists[0].name,
-            id: track.id
+            id: track.id,
+            uri: track.uri
           };
           tracksInfo.push(trackInfo);
         }
@@ -97,7 +99,8 @@ const Home = () => {
             name: track.name,
             url: track.external_urls.spotify,
             artist: track.artists[0].name,
-            id: track.id
+            id: track.id,
+            uri: track.uri
           };
           tracksInfo.push(trackInfo);
         }
