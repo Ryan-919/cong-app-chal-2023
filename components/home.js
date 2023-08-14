@@ -10,7 +10,7 @@ const Home = () => {
   const [genreSearch, setGenreSearch] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
 
-  spotifyApi.setAccessToken("BQBCIc8D85Dzyn2XfOfZvtWgk2gvc0Mw8jZr20RA3FpGqr2_78Dhk41FLsaTWiTAgPGU0v6Zn40kBgMYbD_IQrPbz7MiNPeEEpmvzNKnoS2EecmLw_A")
+  spotifyApi.setAccessToken("BQCg7Gw6O6oAGQFKyWL5ZobLB7on6rZj7h8FPR5lhtwpUCDw2TjvPZzjDh5fzdbBvupbP4InYcG7o-rUwM0gQ1IPEM7I83owfjhnxSWEeRjUcfGtOkI")
 
 
   const handleSearchTrack = (song) => {
@@ -32,6 +32,7 @@ const Home = () => {
     }, function(err) {
       console.error(JSON.stringify(err));
     });
+    setSongSearch('');
   };
 
   const handleSearchGenre = (playlist) => {
@@ -72,6 +73,7 @@ const Home = () => {
     }, function(err) {
       console.error(JSON.stringify(err));
     });
+    setGenreSearch('');
   };
 
   const handleSearchLanguage = (language) => {
@@ -111,6 +113,7 @@ const Home = () => {
     }, function(err) {
       console.error(JSON.stringify(err));
     });
+    setLanguageSearch('')
   };
 
   const handleRandomSong = () => {
