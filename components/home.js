@@ -10,7 +10,7 @@ const Home = () => {
   const [genreSearch, setGenreSearch] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
 
-  spotifyApi.setAccessToken("BQCg7Gw6O6oAGQFKyWL5ZobLB7on6rZj7h8FPR5lhtwpUCDw2TjvPZzjDh5fzdbBvupbP4InYcG7o-rUwM0gQ1IPEM7I83owfjhnxSWEeRjUcfGtOkI")
+  spotifyApi.setAccessToken("BQCaiRmKhW6gesyexjNkCW_l0vLHlj5BgR-AbR887Gc3ho_TIskZxmDNs1Nej9HgMNBHegyNiHCeL2H1Pkg7Lk-8iwaWknqEHWn3O_00WUEbHzA1_HI")
 
 
   const handleSearchTrack = (song) => {
@@ -25,10 +25,12 @@ const Home = () => {
         url: trackItem.external_urls.spotify,
         artist: trackItem.artists[0].name,
         id: trackItem.id,
-        uri: trackItem.uri
+        uri: trackItem.uri,
+        explicit: trackItem.explicit
       }));
       
       console.log(tracks);
+      return tracks;
     }, function(err) {
       console.error(JSON.stringify(err));
     });
@@ -61,12 +63,13 @@ const Home = () => {
             url: track.external_urls.spotify,
             artist: track.artists[0].name,
             id: track.id,
-            uri: track.uri
+            uri: track.uri,
+            explicit: track.explicit
           };
           tracksInfo.push(trackInfo);
-        }
-        
+        }        
         console.log(tracksInfo);
+        return tracksInfo;
       }, function(err) {
         console.log('Something went wrong!', err);
       });
@@ -102,11 +105,13 @@ const Home = () => {
             url: track.external_urls.spotify,
             artist: track.artists[0].name,
             id: track.id,
-            uri: track.uri
+            uri: track.uri,
+            explicit: track.explicit
           };
           tracksInfo.push(trackInfo);
         }
         console.log(tracksInfo);
+        return tracksInfo
       }, function(err) {
         console.log('Something went wrong!', err);
       });
