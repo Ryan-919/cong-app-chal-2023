@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import Home from './components/home';
+import Player from './components/player';
+import ScorePage from './components/scorePage';
+import SearchResults from './components/searchResults';
 
 export default function App() {
 
