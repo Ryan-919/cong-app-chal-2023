@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FlatList, View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React from 'react';
+import { FlatList, Text, SafeAreaView, StyleSheet } from 'react-native';
 import Card from '../styles/card'
 
 

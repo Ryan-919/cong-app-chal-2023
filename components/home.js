@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 const SpotifyWebApi = require("spotify-web-api-node");
 
 var spotifyApi = new SpotifyWebApi();
