@@ -5,12 +5,12 @@ const SpotifyWebApi = require("spotify-web-api-node");
 
 var spotifyApi = new SpotifyWebApi();
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [songSearch, setSongSearch] = useState('');
   const [genreSearch, setGenreSearch] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
 
-  spotifyApi.setAccessToken("BQCaiRmKhW6gesyexjNkCW_l0vLHlj5BgR-AbR887Gc3ho_TIskZxmDNs1Nej9HgMNBHegyNiHCeL2H1Pkg7Lk-8iwaWknqEHWn3O_00WUEbHzA1_HI")
+  spotifyApi.setAccessToken("BQBvwvactRt7Nyc4J_-BNJmT4Mq6XtULJtT4gtI3nkm5gasn-_mS3irApZNVLT0QcM16EdxB7mVmxTSzXlMArj51yt5IIT6z2YllboowADOw0Gk0a-E")
 
 
   const handleSearchTrack = (song) => {
@@ -30,7 +30,7 @@ const Home = () => {
       }));
       
       console.log(tracks);
-      return tracks;
+      navigation.navigate('Search Results', {tracks});
     }, function(err) {
       console.error(JSON.stringify(err));
     });
@@ -55,7 +55,7 @@ const Home = () => {
       .then(function(playlistData) {
         console.log('Some information about this playlist');
         const playlistTrackResponse = playlistData.body;
-        const tracksInfo = [];
+        const tracks = [];
         for (let i = 0; i < 10 && i < playlistTrackResponse.items.length; i++) {
           const track = playlistTrackResponse.items[i].track;
           const trackInfo = {
@@ -66,10 +66,11 @@ const Home = () => {
             uri: track.uri,
             explicit: track.explicit
           };
-          tracksInfo.push(trackInfo);
+          tracks.push(trackInfo);
         }        
-        console.log(tracksInfo);
-        return tracksInfo;
+        console.log(tracks);
+        navigation.navigate('Search Results', {tracks});
+
       }, function(err) {
         console.log('Something went wrong!', err);
       });
@@ -97,7 +98,7 @@ const Home = () => {
       .then(function(languageData) {
         console.log('Some information about this playlist');
         const languageTrackResponse = languageData.body;
-        const tracksInfo = [];
+        const tracks = [];
         for (let i = 0; i < 10 && i < languageTrackResponse.items.length; i++) {
           const track = languageTrackResponse.items[i].track;
           const trackInfo = {
@@ -108,10 +109,11 @@ const Home = () => {
             uri: track.uri,
             explicit: track.explicit
           };
-          tracksInfo.push(trackInfo);
+          tracks.push(trackInfo);
         }
-        console.log(tracksInfo);
-        return tracksInfo
+        console.log(tracks);
+        navigation.navigate('Search Results', {tracks});
+
       }, function(err) {
         console.log('Something went wrong!', err);
       });
