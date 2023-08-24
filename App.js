@@ -15,7 +15,7 @@ export default function App() {
       <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen name = "Home" component={Home} options = {{headerShown: false}}/>
         <Stack.Screen name = "Search Results" component={SearchResults}/>
-        {/* <Stack.Screen name = "Player" component={Player} options = {{headerShown: false}}/> */}
+        <Stack.Screen name = "Player" component={Player} options = {{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

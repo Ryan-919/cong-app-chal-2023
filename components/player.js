@@ -1,11 +1,19 @@
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
-// const SpotifyWebApi = require("spotify-web-api-node");
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+const SpotifyWebApi = require("spotify-web-api-node");
 
 // var spotifyApi = new SpotifyWebApi();
 
 
-// const Player = () => {
+const Player = ({route}) => {
+  const {lyricsData} = route.params; 
+
+  return (
+    <SafeAreaView>
+      <Text>Hi</Text>
+    </SafeAreaView>
+  )
+};
 //   spotifyApi.setAccessToken('BQBgVNIcpFSyyxadtk_Rm3dtnANXhqOJPz_0xDAQT3kfjOfcx6iuIHiiH-D7dg8kfRZJ86FOfr4V-OhkKqdX7BsCDuY0unJzc05XeC6-mexVFIxu3dE')
 
 //   useEffect(() => {
@@ -30,6 +38,6 @@
 //     </View>
 //   )
 
-// }
 
-// export default Player;
+
+ export default Player;

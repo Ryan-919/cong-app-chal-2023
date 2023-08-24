@@ -4,16 +4,19 @@ import Card from '../styles/card'
 
 
 
-const SearchResults = ({route}) => {  
+const SearchResults = ({route, navigation}) => {  
   const { tracks } = route.params;
 
 
   const handlePlaySong = (songId, songUri) =>{
     console.log(songId, songUri)
-    fetch("https://e25c-107-201-176-27.ngrok-free.app/hello/" + songId, {
+    fetch("https://3942-107-201-176-27.ngrok-free.app/hello/" + songId, {
       method: 'GET'})
       .then((response) => response.json())
-      .then((json) => console.log(JSON.stringify(json)))
+      .then(function(json) {
+        console.log(JSON.stringify(json));
+        navigation.navigate("Player", {json})
+      })
       .catch(function(error) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
           throw error;
