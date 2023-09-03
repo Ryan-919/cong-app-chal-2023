@@ -7,45 +7,30 @@ const SpotifyWebApi = require("spotify-web-api-node");
 
 const Player = ({route}) => {
   const {json} = route.params;
-  
-  const [currentTime, setCurrentTime] = useState(0);
-  
+  var time = 0
+  var index = 0
+  const [currentLyric, setCurrentLyric] = useState("");
+ 
     useEffect(() => {
-
-      
-      const startTime = Date.now()
   
       const timer = setInterval(() => {
-        const currentTimeMs = Date.now() - startTime;
-        setCurrentTime(currentTimeMs);
-        console.log(currentTime)
+        time += 100
+        if (index < json.lines.length) {
+          if (time >= json.lines[index].startTimeMs) {
+            setCurrentLyric(json.lines[index].words)
+            index +=1;
+          }
+        }
       }, 100); // Update every 100 milliseconds
   
       return () => clearInterval(timer); // Clear the timer when the component unmounts
-    });
-  
-    const getCurrentLyricIndex = () => {
-
-      for (let i = 0; i < json.lines.length; i++) {
-        const startTimeMs = parseInt(json.lines[i].startTimeMs);
-        
-        if (currentTime >= startTimeMs) {
-          return i;
-        }
-      }
-  
-      return json.lines.length - 1;
-    };
-  
-    const currentLyricIndex = getCurrentLyricIndex();
-  
+    }, []);
+    
     return (
       <SafeAreaView style = {styles.container}>
-        <ScrollView>
-        {json.lines.slice(currentLyricIndex).map((line, index) => (
-          <Text key={index}>{JSON.stringify(line.words)}</Text>
-        ))}
-        </ScrollView>
+        {/* <ScrollView style = {styles.scroll}> */}
+        <Text style = {styles.lyrics}>{currentLyric}</Text>
+        {/* </ScrollView> */}
       </SafeAreaView>
     );
   };
@@ -54,8 +39,20 @@ const Player = ({route}) => {
     container: {
       flex: 1,
       padding: 16,
-      paddingTop: 4
-    }});
+      paddingTop: 4,
+      justifyContent: 'center',
+      textAlignVertical: 'center'
+    },
+    scroll: {
+      flex:1,
+      justifyContent: 'center'
+    },
+    lyrics: {
+      fontSize: 24,
+      textAlign: 'center',
+      marginBottom: 16,
+    }
+  });
 //   spotifyApi.setAccessToken('BQBgVNIcpFSyyxadtk_Rm3dtnANXhqOJPz_0xDAQT3kfjOfcx6iuIHiiH-D7dg8kfRZJ86FOfr4V-OhkKqdX7BsCDuY0unJzc05XeC6-mexVFIxu3dE')
 
 //   useEffect(() => {
