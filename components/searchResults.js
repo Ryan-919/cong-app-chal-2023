@@ -8,14 +8,14 @@ const SearchResults = ({route, navigation}) => {
   const { tracks } = route.params;
 
 
-  const handlePlaySong = (songId, songUri) =>{
-    console.log(songId, songUri)
+  const handlePlaySong = (songId, songUrl) =>{
+    console.log(songId, songUrl)
     fetch("https://spotify-lyric-api.herokuapp.com/?trackid=" + songId, {
       method: 'GET'})
       .then((response) => response.json())
       .then(function(json) {
         console.log(JSON.stringify(json));
-        navigation.navigate("Player", {json})
+        navigation.navigate("Player", {json, songUrl})
       })
       .catch(function(error) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
@@ -29,7 +29,7 @@ const SearchResults = ({route, navigation}) => {
         data={tracks}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress = {() => handlePlaySong(item.id, item.uri)} >
+          <TouchableOpacity onPress = {() => handlePlaySong(item.id, item.url)} >
             <Card>
               <Text>{item.name}</Text>
               <Text>{item.artist}</Text>
