@@ -3,8 +3,15 @@ import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWitho
 
 
 
-const ScorePage = () => {
+const ScorePage = ({route}) => {
 
+  const {score} = route.params;
+
+  return (
+    <SafeAreaView>
+      <Text>You got {score} words correct</Text>
+    </SafeAreaView>
+  )
 }
 
 export default ScorePage;

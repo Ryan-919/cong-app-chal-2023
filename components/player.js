@@ -9,15 +9,18 @@ import { Audio } from 'expo-av';
 // var spotifyApi = new SpotifyWebApi();
 
 
-const Player = ({route}) => {
+const Player = ({route, navigation}) => {
   const {json, songUrl} = route.params;
   var time = 0
   var index = 0
   const [sound, setSound] = useState();
+  const [wordsIndex, setWordsIndex] = useState(0);
   const [currentLyric, setCurrentLyric] = useState("");
   const [tokenizedLine, setTokenizedLine] = useState([]); // Store the tokenized line
   const [userInput, setUserInput] = useState([]);
   const textInputRefs = useRef([]);
+  const [total, setTotal] = useState(0);
+
 
 
   useEffect(() => {
@@ -37,14 +40,17 @@ const Player = ({route}) => {
             textInputRefs.current[index - 1].focus();
           }
         }
+      } else {
+        console.log(score)
+        navigation.navigate("Results", {score});
       }
-      console.log(userInput)
     }, 100); // Update every 100 milliseconds
 
     return () => 
     {clearInterval(timer);
     textInputRefs.current.forEach((ref) => ref.blur()); // Unfocus all TextInputs when the component unmounts
-    Keyboard.dismiss(); }
+    Keyboard.dismiss(); 
+    }
   }, []);
 
   useEffect(() => {
@@ -78,14 +84,6 @@ const Player = ({route}) => {
     console.log(err.message)
   }
   }
-
-  // const playSound = (url) => {
-  //   try {
-  //     SoundPlayer.playUrl(url)
-  //   } catch (e) {
-  //     console.log(`Cannot play sound file`, e)
-  //   }
-  // };
   const getRandomNumber = () => {
     const randomDecimal = Math.random();
     const randomNumber = Math.floor(randomDecimal * 10) + 1;
@@ -108,8 +106,18 @@ const Player = ({route}) => {
     const updatedInput = [...userInput];
     updatedInput[wordIndex] = text;
     setUserInput(updatedInput);
-     
+    setWordsIndex(wordIndex)
   };
+
+  const handleSubmit = (input, wordIndex) => {
+    const expectedWord = tokenizedLine[wordIndex].text;
+    console.log("Expected word " + expectedWord);
+    console.log("Text " + input);
+    if (input == expectedWord) {
+      score ++;
+      console.log(score)
+    }
+  }
 
 
   const renderLine = () => {
@@ -117,10 +125,11 @@ const Player = ({route}) => {
       if (word.isBlanked) {
         return (
           <TextInput    
-          ref={(ref) => (textInputRefs.current[wordIndex] = ref)} // Reference to TextInput
+            ref={(ref) => (textInputRefs.current[wordIndex] = ref)} // Reference to TextInput
             style={styles.blankedWord}
             placeholder=""
             onChangeText = {(text) => handleInputChange(wordIndex, text)}
+            onSubmitEditing = {() => handleSubmit(userInput[wordsIndex], wordsIndex)}
             value={userInput[wordIndex]}
           />
         );
@@ -139,13 +148,6 @@ const Player = ({route}) => {
     </SafeAreaView>
   );
   
-  // return (
-  //   <SafeAreaView style = {styles.container}>
-  //     {/* <ScrollView style = {styles.scroll}> */}
-  //     <Text style = {styles.lyrics}>{currentLyric}</Text>
-  //     {/* </ScrollView> */}
-  //   </SafeAreaView>
-  // );
   };
 
   const styles = StyleSheet.create({

@@ -16,6 +16,8 @@ export default function App() {
         <Stack.Screen name = "Home" component={Home} options = {{headerShown: false}}/>
         <Stack.Screen name = "Search Results" component={SearchResults}/>
         <Stack.Screen name = "Player" component={Player} options = {{headerShown: false}}/>
+        <Stack.Screen name = "Results" component={ScorePage} options = {{headerShown: true}}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );
