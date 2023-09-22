@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, ScrollView } from 'react-native';
 const SpotifyWebApi = require("spotify-web-api-node");
 import { Audio } from 'expo-av';
+import Icon from 'react-native-vector-icons/Foundation'; // Use any icon library you prefer
 
 
 const Player = ({route, navigation}) => {
@@ -17,6 +18,7 @@ const Player = ({route, navigation}) => {
   const [userInput, setUserInput] = useState([]);
   const textInputRefs = useRef([]);
   const [total, setTotal] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
 
 
@@ -39,15 +41,15 @@ const Player = ({route, navigation}) => {
             textInputRefs.current[index - 1].focus();
           }
         }
+      } else{
+        clearInterval(timer)
+        time = 0
+        index = 0
+        console.log(index)
       }
-
     }, 100); // Update every 100 milliseconds
 
-    return () => 
-    {clearInterval(timer);
-    textInputRefs.current.forEach((ref) => ref.blur()); // Unfocus all TextInputs when the component unmounts
-    Keyboard.dismiss(); 
-    }
+
   }, []);
 
   useEffect(() => {
@@ -99,9 +101,34 @@ const Player = ({route, navigation}) => {
 
   useEffect (() => {
     if (songIndex == json.lines.length) {
-      navigation.navigate("Results", {score})
+      setSongIndex(0);
+      setScore(0);
+      setWordsIndex(0);
+      setSound();
+      setCurrentLyric("")
+      setTokenizedLine([])
+      setUserInput([])
+      setTotal(0)
+      navigation.navigate("Results", {score, total, json, songUrl})
+      return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync();
+        }
+      : undefined;
     }
   }, [songIndex])
+
+  useEffect(() => {
+
+    const totalBlankedWords = tokenizedLine.reduce((count, word) => {
+      return count + (word.isBlanked ? 1 : 0);
+    }, 0)
+
+    if (tokenizedLine.length > 0) {
+    setTotal((prevTotal) => prevTotal+totalBlankedWords)
+    }
+  }, [tokenizedLine])
 
   const handleInputChange = (wordIndex, text) => {
     const updatedInput = [...userInput];
@@ -116,6 +143,22 @@ const Player = ({route, navigation}) => {
       setScore((prevScore) => prevScore+1);
     }
   }
+
+
+  // useEffect(() => {
+  //   // Play or pause the audio based on the isPlaying state
+  //   if (sound) {
+  //     if (isPlaying) {
+  //       sound.playAsync();
+  //     } else {
+  //       sound.pauseAsync();
+  //     }
+  //   }
+  // }, [isPlaying, sound]);
+
+  const handlePlayPauseToggle = () => {
+    setIsPlaying(!isPlaying); // Toggle play/pause state
+  };
 
 
   const renderLine = () => {
@@ -140,9 +183,9 @@ const Player = ({route, navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.lyricsContainer}>{renderLine()}</View>
-      {/* <View style = {styles.container}>
-        <Button title="Finished" onPress={navigateToResults} />
-      </View> */}
+      {/* <TouchableOpacity onPress={handlePlayPauseToggle}>
+        <Icon name={isPlaying ? 'pause' : 'play'} size={40} color="blue" />
+      </TouchableOpacity> */}
     </SafeAreaView>
   );
   
