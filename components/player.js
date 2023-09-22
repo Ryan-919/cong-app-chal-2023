@@ -2,17 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList, ScrollView } from 'react-native';
 const SpotifyWebApi = require("spotify-web-api-node");
 import { Audio } from 'expo-av';
-//import SoundPlayer from 'react-native-sound-player'
-
-
-
-// var spotifyApi = new SpotifyWebApi();
 
 
 const Player = ({route, navigation}) => {
   const {json, songUrl} = route.params;
   var time = 0
   var index = 0
+  const [songIndex, setSongIndex] = useState(0);
+  const [score, setScore] = useState(0);
   const [sound, setSound] = useState();
   const [wordsIndex, setWordsIndex] = useState(0);
   const [currentLyric, setCurrentLyric] = useState("");
@@ -27,6 +24,7 @@ const Player = ({route, navigation}) => {
     textInputRefs.current = textInputRefs.current.slice(0, json.lines.length);
   }, [json.lines.length]);
 
+
   useEffect(() => {
 
     const timer = setInterval(() => {
@@ -36,14 +34,13 @@ const Player = ({route, navigation}) => {
           setCurrentLyric(json.lines[index].words)
           setUserInput(Array(tokenizedLine.length).fill('')); // Initialize userInput array based on tokenized line
           index +=1;
+          setSongIndex(index);
           if (tokenizedLine.some(word => word.isBlanked)) {
             textInputRefs.current[index - 1].focus();
           }
         }
-      } else {
-        console.log(score)
-        navigation.navigate("Results", {score});
       }
+
     }, 100); // Update every 100 milliseconds
 
     return () => 
@@ -99,8 +96,12 @@ const Player = ({route, navigation}) => {
       setTokenizedLine(tokenized);
     }
   }, [currentLyric]);
- 
 
+  useEffect (() => {
+    if (songIndex == json.lines.length) {
+      navigation.navigate("Results", {score})
+    }
+  }, [songIndex])
 
   const handleInputChange = (wordIndex, text) => {
     const updatedInput = [...userInput];
@@ -111,11 +112,8 @@ const Player = ({route, navigation}) => {
 
   const handleSubmit = (input, wordIndex) => {
     const expectedWord = tokenizedLine[wordIndex].text;
-    console.log("Expected word " + expectedWord);
-    console.log("Text " + input);
     if (input == expectedWord) {
-      score ++;
-      console.log(score)
+      setScore((prevScore) => prevScore+1);
     }
   }
 
@@ -143,7 +141,7 @@ const Player = ({route, navigation}) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.lyricsContainer}>{renderLine()}</View>
       {/* <View style = {styles.container}>
-        <Button title="Play Sound" onPress={playSound} />
+        <Button title="Finished" onPress={navigateToResults} />
       </View> */}
     </SafeAreaView>
   );
@@ -179,7 +177,11 @@ const Player = ({route, navigation}) => {
       marginHorizontal: 4
     }  
   });
-//   spotifyApi.setAccessToken('BQBgVNIcpFSyyxadtk_Rm3dtnANXhqOJPz_0xDAQT3kfjOfcx6iuIHiiH-D7dg8kfRZJ86FOfr4V-OhkKqdX7BsCDuY0unJzc05XeC6-mexVFIxu3dE')
+
+ export default Player;
+
+
+ //   spotifyApi.setAccessToken('BQBgVNIcpFSyyxadtk_Rm3dtnANXhqOJPz_0xDAQT3kfjOfcx6iuIHiiH-D7dg8kfRZJ86FOfr4V-OhkKqdX7BsCDuY0unJzc05XeC6-mexVFIxu3dE')
 
 //   useEffect(() => {
 //     spotifyApi.play({
@@ -202,7 +204,3 @@ const Player = ({route, navigation}) => {
 //       <Text>hi there</Text>
 //     </View>
 //   )
-
-
-
- export default Player;
