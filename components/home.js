@@ -10,7 +10,7 @@ const Home = ({navigation}) => {
   const [genreSearch, setGenreSearch] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
 
-  spotifyApi.setAccessToken("BQCVlt62LieAk6y96jyCykO-1FEonTg58L2lDYerHWytIg_qAd5d-tmTFWQih7F2JAiXpGBEjgxvuIejq2hHdMthZ6MfKYw8-6TU4_YrRDr3ndUx61I")
+  spotifyApi.setAccessToken("BQCO0O_rUm6w-G9ShbjZcbC4mwjGIUaGND0WcEy7B1jTWwPGIkz9loT5DVQgUB0sHPjwfnZsS20X6CLjkTvMT5rIwESaPwzYfWLLy5EPdqEExrLHFXg")
 
 
   const handleSearchTrack = (song) => {
@@ -123,10 +123,6 @@ const Home = ({navigation}) => {
     setLanguageSearch('')
   };
 
-  const handleRandomSong = () => {
-    // Implement logic to suggest a random song
-  };
-
   return (
     <TouchableWithoutFeedback onPress = {Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
@@ -154,7 +150,6 @@ const Home = ({navigation}) => {
           onChangeText={(text) => setLanguageSearch(text)}
           onSubmitEditing={() => handleSearchLanguage(languageSearch)}
         />
-        <Button title="Suggest Random Song" onPress={handleRandomSong} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

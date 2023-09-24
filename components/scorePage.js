@@ -12,7 +12,7 @@ const ScorePage = ({navigation, route}) => {
       <View style = {styles.lyricsContainer}>
         <Text style = {styles.lyrics}>You got {score} out of {total} words correct</Text>
       </View>
-      <Button title = "Try Again" onPress={() => navigation.navigate("Player", {json, songUrl})} />
+      <Button title = "Try Again" onPress={() => navigation.navigate("Player", {key: new Date().getTime(), json, songUrl})} />
       <Button title="Finish" onPress={() => navigation.popToTop()} />
     </SafeAreaView>
   )

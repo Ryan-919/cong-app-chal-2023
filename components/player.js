@@ -24,7 +24,7 @@ const Player = ({route, navigation}) => {
 
   useEffect(() => {
     textInputRefs.current = textInputRefs.current.slice(0, json.lines.length);
-  }, [json.lines.length]);
+  }, [json.lines.length, route.params.key]);
 
 
   useEffect(() => {
@@ -50,11 +50,11 @@ const Player = ({route, navigation}) => {
     }, 100); // Update every 100 milliseconds
 
 
-  }, []);
+  }, [route.params.key]);
 
   useEffect(() => {
     playSound();
-  }, []);
+  }, [route.params.key]);
 
   useEffect(() => {
     return sound
@@ -99,23 +99,29 @@ const Player = ({route, navigation}) => {
     }
   }, [currentLyric]);
 
+  const resetGame = () => {
+    // Reset all state variables
+    setSongIndex(0);
+    setScore(0);
+    setWordsIndex(0);
+    setSound();
+    setCurrentLyric("");
+    setTokenizedLine([]);
+    setUserInput([]);
+    setTotal(0);
+    time = 0; // Reset time
+    index = 0; // Reset index
+  };
+
+  useEffect(() => {
+    // Initialize the game when the component mounts
+    resetGame();
+  }, [route.params.key]);
+
   useEffect (() => {
     if (songIndex == json.lines.length) {
-      setSongIndex(0);
-      setScore(0);
-      setWordsIndex(0);
-      setSound();
-      setCurrentLyric("")
-      setTokenizedLine([])
-      setUserInput([])
-      setTotal(0)
+      resetGame();
       navigation.navigate("Results", {score, total, json, songUrl})
-      return sound
-      ? () => {
-          console.log('Unloading Sound');
-          sound.unloadAsync();
-        }
-      : undefined;
     }
   }, [songIndex])
 

@@ -15,7 +15,7 @@ const SearchResults = ({route, navigation}) => {
       .then((response) => response.json())
       .then(function(json) {
         console.log(JSON.stringify(json));
-        navigation.navigate("Player", {json, songUrl})
+        navigation.navigate("Player", {key: new Date().getTime(), json, songUrl})
       })
       .catch(function(error) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
