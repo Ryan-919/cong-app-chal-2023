@@ -3,6 +3,9 @@ import { View, Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWitho
 const SpotifyWebApi = require("spotify-web-api-node");
 import { Audio } from 'expo-av';
 import Icon from 'react-native-vector-icons/Foundation'; // Use any icon library you prefer
+import { diff } from 'react-native-reanimated';
+import { useDifficulty } from './difficultyContext';
+
 
 
 const Player = ({route, navigation}) => {
@@ -19,6 +22,7 @@ const Player = ({route, navigation}) => {
   const textInputRefs = useRef([]);
   const [total, setTotal] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const { difficulty } = useDifficulty();
 
 
 
@@ -93,7 +97,7 @@ const Player = ({route, navigation}) => {
     if (currentLyric) {
       const tokenized = currentLyric.split(' ').map((word) => ({
         text: word,
-        isBlanked: (getRandomNumber() < 6) ? true : false, // You can add logic here to determine which words to blank out
+        isBlanked: (getRandomNumber() < difficulty) ? true : false, // You can add logic here to determine which words to blank out
       }));
       setTokenizedLine(tokenized);
     }

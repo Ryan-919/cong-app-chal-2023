@@ -1,16 +1,23 @@
-
 import React, { useState } from 'react';
-import { Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Text, TextInput, Button, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard, View } from 'react-native';
+import { useDifficulty } from '/components/difficultyContext.js'
 const SpotifyWebApi = require("spotify-web-api-node");
 
 var spotifyApi = new SpotifyWebApi();
+var difficulty = 4;
 
 const Home = ({navigation}) => {
+  const { difficulty, setDifficulty } = useDifficulty();
+
+  const handleSetDifficulty = (level) => {
+    setDifficulty(level);
+  };
   const [songSearch, setSongSearch] = useState('');
   const [genreSearch, setGenreSearch] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
+  
 
-  spotifyApi.setAccessToken("BQCO0O_rUm6w-G9ShbjZcbC4mwjGIUaGND0WcEy7B1jTWwPGIkz9loT5DVQgUB0sHPjwfnZsS20X6CLjkTvMT5rIwESaPwzYfWLLy5EPdqEExrLHFXg")
+  spotifyApi.setAccessToken("BQBNUXbBMXf4zp_tb8FRnvUNhpYFAALWiFxzytooxMwZ3i5fDlKeBkMrvLrd0jwsEHh2bkCz1IF8sZGCRv__D-9xpnYGJ3HcShb3B--nG41Z_Z1Xfm2XY7Rdo9AzNgaYjNCKvI0qu5nPDleFRv7Y1g4GrNYQHCcLf6ygiCYWxve_7feCCjC4bVzSQlgsRHQfkHgTJCXmejAqvoODpBU7i-vhwVlF")
 
 
   const handleSearchTrack = (song) => {
@@ -150,9 +157,18 @@ const Home = ({navigation}) => {
           onChangeText={(text) => setLanguageSearch(text)}
           onSubmitEditing={() => handleSearchLanguage(languageSearch)}
         />
+        <Text style={styles.header}>
+          Difficulty Level: {difficulty/2}
+        </Text>
+        <View style={styles.buttonContainer}>
+          <Button title="1" onPress={() => handleSetDifficulty(2)} color = "royalblue" />
+          <Button title="2" onPress={() => handleSetDifficulty(4)} color = "crimson" />
+          <Button title="3" onPress={() => handleSetDifficulty(6)} color = "black" />
+        </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
+  
 };
 
 const styles = StyleSheet.create({
@@ -175,6 +191,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  
 });
 
 export default Home;
+export { difficulty };
