@@ -10,7 +10,7 @@ import { useDifficulty } from './difficultyContext';
 
 const Player = ({route, navigation}) => {
   const {json, songUrl} = route.params;
-  //var time = 0
+  var time = 0
   var index = 0
   const [songIndex, setSongIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -33,13 +33,11 @@ const Player = ({route, navigation}) => {
 
   useEffect(() => {
 
-    var start = Date.now();
-
     const timer = setInterval(() => {
-      var time = Date.now()-start;
+      time += 100
       if (index < json.lines.length) {
         if (time >= json.lines[index].startTimeMs) {
-          setCurrentLyric(json.lines[index].words);
+          setCurrentLyric(json.lines[index].words)
           setUserInput(Array(tokenizedLine.length).fill('')); // Initialize userInput array based on tokenized line
           index +=1;
           setSongIndex(index);
@@ -125,13 +123,11 @@ const Player = ({route, navigation}) => {
   }, [route.params.key]);
 
   useEffect (() => {
-    if (sound) {
-    sound.setOnPlaybackStatusUpdate((status) => {
-      if (status.didJustFinish) {
+    if (songIndex == json.lines.length) {
       resetGame();
       navigation.navigate("Results", {score, total, json, songUrl})
-    }})}
-  },)
+    }
+  }, [songIndex])
 
   useEffect(() => {
 
