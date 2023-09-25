@@ -10,7 +10,7 @@ const Home = ({navigation}) => {
   const [genreSearch, setGenreSearch] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
 
-  spotifyApi.setAccessToken("BQCO0O_rUm6w-G9ShbjZcbC4mwjGIUaGND0WcEy7B1jTWwPGIkz9loT5DVQgUB0sHPjwfnZsS20X6CLjkTvMT5rIwESaPwzYfWLLy5EPdqEExrLHFXg")
+  spotifyApi.setAccessToken("BQCZ2hwqs4ARpDuLyzW9SAU0HXhiD-inNJdiZ4DrHYUPWOdbWFQq0kswSiBhkQgGJUqun7Jv--LFOz4LY-dMUIyjuF-DOXt4FIqZrnRQhm9szpOh1xk")
 
 
   const handleSearchTrack = (song) => {
